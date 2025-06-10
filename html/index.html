@@ -1,29 +1,377 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html
-  lang="en"
-  class="customizer-hide"
-  dir="ltr"
-  data-assets-path="assets/"
-  data-template="vertical-menu-template-no-customizer">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<html lang="en" class="layout-menu-fixed layout-compact" data-assets-path="../assets/"
+  data-template="vertical-menu-template-free">
 
-    <title>Sneat - Free Bootstrap 5 HTML Admin Template</title>
+<head>
 
-    <meta name="description" content="" />
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
+  <title>Clínica SaludTotal</title>
 
-    <!-- Fonts -->
+  <meta name="description" content="" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/img/favicon/Logo.png" />
+
+
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="../assets/vendor/fonts/iconify-icons.css" />
+
+  <!-- Core CSS -->
+  <!-- build:css assets/vendor/css/theme.css  -->
+
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+
+  <!-- Vendors CSS -->
+
+  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="../assets/vendor/js/helpers.js"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+
+  <script src="../assets/js/config.js"></script>
+</head>
+<style>
+  /* Notificación tipo toast */
+  #notificacion.oculto {
+    display: none;
+  }
+
+  #notificacion {
+    z-index: 1055;
+  }
+</style>
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo">
+              <span class="text-primary">
+                <img src="../assets/img/favicon/Logo.png" width="140" style="position: relative; left: 20px;" />
+              </span>
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2"></span>
+          </a>
+
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="bx bx-chevron-left d-block d-xl-none align-middle"></i>
+          </a>
         </div>
+
+        <div class="menu-divider mt-0"></div>
+
+        <div class="menu-inner-shadow"></div>
+
+        <ul class="menu-inner py-1">
+          <!-- Dashboards -->
+          <li class="menu-item active">
+            <a href="index.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-smile"></i>
+              <div class="text-truncate" data-i18n="Dashboards">Inicio</div>
+            </a>
+          </li>
+
+
+
+
+
+
+          <!-- Pages -->
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-dock-top"></i>
+              <div class="text-truncate" data-i18n="Account Settings">Pacientes</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="registrar.html" class="menu-link">
+                  <div class="text-truncate" data-i18n="Account">Registrar Pacientes</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="editarpaciente.html" class="menu-link">
+                  <div class="text-truncate" data-i18n="Notifications">Editar Información Paciente</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="infopaciente.html" class="menu-link">
+                  <div class="text-truncate" data-i18n="Connections">Información Completa </div>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+
+
+
+
+        </ul>
+      </aside>
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <nav
+          class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme"
+          id="layout-navbar">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+              <i class="icon-base bx bx-menu icon-md"></i>
+            </a>
+          </div>
+
+          <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
+            <!-- Search -->
+            <div class="navbar-nav align-items-center me-auto">
+              <div class="nav-item d-flex align-items-center">
+                <span class="w-px-22 h-px-22"><i class="icon-base bx bx-search icon-md"></i></span>
+                <input type="text" class="form-control border-0 shadow-none ps-1 ps-sm-2 d-md-block d-none"
+                  placeholder="Buscar..." aria-label="Search..." />
+              </div>
+            </div>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-md-auto">
+              <!-- Place this tag where you want the button to render. -->
+
+
+
+              <!--/ User -->
+            </ul>
+          </div>
+        </nav>
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Content -->
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="fw-bold">Gestión de Pacientes</h4>
+              <div class="mb-3 d-flex align-items-center justify-content-end">
+                <label for="origenDatos" class="me-2 mb-0 fw-bold">Ver datos desde:</label>
+                <select id="origenDatos" class="form-select w-auto">
+                  <option value="api" selected>Base de Datos</option>
+                  <option value="local">Almacenamineto Local</option>
+                </select>
+              </div>
+              <a href="registrar.html" class="btn btn-primary">+ Registrar Paciente</a>
+            </div>
+
+            <div class="card">
+              <div class="table-responsive text-nowrap">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>RUT</th>
+                      <th>Edad</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="lista-pacientes"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Toast de notificación -->
+            <div id="notificacion"
+              class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-4 oculto"
+              role="alert">
+              <div class="d-flex">
+                <div class="toast-body">
+                  <strong id="noti-titulo">✔ Éxito</strong>
+                  <p id="noti-mensaje" class="mb-0">El paciente fue registrado correctamente.</p>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                  onclick="ocultarNotificacion()"></button>
+              </div>
+            </div>
+          </div>
+          <!-- / Content -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- / Content wrapper -->
+
+
+        <!-- / Content -->
+
+
+
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl d-flex justify-content-between py-2">
+            <span>© 2025 - Clínica Salud Total</span>
+          </div>
+        </footer>
+
+        <div class="content-backdrop fade"></div>
       </div>
+      <!-- Content wrapper -->
     </div>
-    <!-- / Content -->
-  </body>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+  <!-- / Layout wrapper -->
+
+
+
+  <!-- Core JS -->
+
+  <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const lista = document.getElementById("lista-pacientes");
+      const origenSelect = document.getElementById("origenDatos");
+
+      function calcularEdad(fecha) {
+        const hoy = new Date();
+        const nacimiento = new Date(fecha);
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const m = hoy.getMonth() - nacimiento.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+        return edad;
+      }
+
+      function renderPacientes(pacientes, origen = "api") {
+        lista.innerHTML = pacientes.map(p => `
+    <tr>
+      <td>${p.nombre}</td>
+      <td>${origen === 'local' ? p.rut : p.id_pac}</td>
+      <td>${calcularEdad(p.fechaNacimiento || p.fecha_nac)} años</td>
+      <td>
+        <a href="editarpaciente.html?rut=${origen === 'local' ? p.rut : p.id_pac}&origen=${origen}" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+        <button onclick="confirmarEliminacion('${origen}', '${origen === 'local' ? p.rut : p.id_pac}')" class="btn btn-sm btn-outline-danger me-1">Eliminar</button>
+        <a href="infopaciente.html?rut=${origen === 'local' ? p.rut : p.id_pac}&origen=${origen}" class="btn btn-sm btn-outline-info">Información completa</a>
+      </td>
+    </tr>
+  `).join("");
+      }
+
+      function cargarDesdeLocal() {
+        const pacientes = JSON.parse(localStorage.getItem("pacientesData")) || [];
+        renderPacientes(pacientes, "local");
+      }
+
+      function cargarDesdeApi() {
+        fetch("http://localhost:8000/api/gestion_pacientes_app/")
+          .then(res => res.json())
+          .then(data => renderPacientes(data, "api"))
+          .catch(err => {
+            console.error("Error al cargar desde API:", err);
+            lista.innerHTML = `<tr><td colspan="4" class="text-danger">Error al cargar desde la base de datos</td></tr>`;
+          });
+      }
+
+      window.confirmarEliminacion = function (origen, id) {
+        if (confirm("¿Estás seguro de que deseas eliminar este paciente?\nEsta acción no se puede deshacer.")) {
+          if (origen === "local") {
+            const pacientes = JSON.parse(localStorage.getItem("pacientesData")) || [];
+            const nuevos = pacientes.filter(p => p.rut && p.rut !== id);
+            localStorage.setItem("pacientesData", JSON.stringify(nuevos));
+            mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
+            cargarDesdeLocal();
+          } else {
+            fetch(`http://localhost:8000/api/gestion_pacientes_app/${id}/`, {
+              method: 'DELETE'
+            })
+              .then(resp => {
+                if (resp.ok) {
+                  mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
+                  cargarDesdeApi();
+                } else {
+                  console.warn("No se pudo eliminar desde API");
+                }
+              })
+              .catch(err => console.error("Error al eliminar desde API:", err));
+          }
+        }
+      };
+
+      function mostrarNotificacion(titulo, mensaje) {
+        const noti = document.getElementById("notificacion");
+        document.getElementById("noti-titulo").textContent = titulo;
+        document.getElementById("noti-mensaje").textContent = mensaje;
+        noti.classList.remove("oculto");
+        setTimeout(() => noti.classList.add("oculto"), 3000);
+      }
+
+      function ocultarNotificacion() {
+        document.getElementById("notificacion").classList.add("oculto");
+      }
+
+      origenSelect.addEventListener("change", () => {
+        if (origenSelect.value === "local") {
+          cargarDesdeLocal();
+        } else {
+          cargarDesdeApi();
+        }
+      });
+
+      // Carga inicial
+      cargarDesdeApi();
+    });
+  </script>
+
+
+
+
+  <script src="../assets/vendor/libs/popper/popper.js"></script>
+  <script src="../assets/vendor/js/bootstrap.js"></script>
+
+  <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+  <script src="../assets/vendor/js/menu.js"></script>
+
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+  <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+  <!-- Main JS -->
+
+  <script src="../assets/js/main.js"></script>
+
+  <!-- Page JS -->
+  <script src="../assets/js/dashboards-analytics.js"></script>
+
+  <!-- Place this tag before closing body tag for github widget button. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
 </html>
