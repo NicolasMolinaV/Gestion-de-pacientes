@@ -2,6 +2,7 @@ import http.server
 import socketserver
 import os
 
+# Render define el puerto en una variable de entorno
 PORT = int(os.environ.get("PORT", 5500))
 DIRECTORY = "html"
 
