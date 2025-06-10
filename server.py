@@ -3,7 +3,7 @@ import socketserver
 import os
 
 PORT = int(os.environ.get("PORT", 5500))
-DIRECTORY = "."
+DIRECTORY = "html"
 
 os.chdir(DIRECTORY)
 
