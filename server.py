@@ -3,7 +3,7 @@ import socketserver
 import os
 
 PORT = int(os.environ.get("PORT", 5500))
-DIRECTORY = "sneat_clinica_integrado"
+DIRECTORY = "html"
 
 os.chdir(DIRECTORY)
 
