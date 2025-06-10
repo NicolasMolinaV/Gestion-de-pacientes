@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es" class="layout-menu-fixed layout-compact" data-assets-path="../assets/"
+  data-template="vertical-menu-template-free">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>Editar Paciente</title>
+  <meta name="description" content="Editar paciente en el sistema de salud" />
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/fonts/iconify-icons.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <script src="../assets/vendor/js/helpers.js"></script>
+  <script src="../assets/js/config.js"></script>
+</head>
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo">
+              <span class="text-primary">
+                <img src="../assets/img/favicon/Logo.png" width="140" style="position: relative; left: 20px;" />
+              </span>
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2"></span>
+          </a>
+
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="bx bx-chevron-left d-block d-xl-none align-middle"></i>
+          </a>
+        </div>
+
+        <div class="menu-divider mt-0"></div>
+
+        <div class="menu-inner-shadow"></div>
+
+        <ul class="menu-inner py-1">
+          <!-- Dashboards -->
+          <li class="menu-item">
+            <a href="index.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-smile"></i>
+              <div class="text-truncate" data-i18n="Dashboards">Inicio</div>
+            </a>
+          </li>
+
+
+
+
+
+
+          <!-- Pages -->
+          <li class="menu-item active open">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-dock-top"></i>
+              <div class="text-truncate" data-i18n="Account Settings">Pacientes</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="registrar.html" class="menu-link">
+                  <div class="text-truncate" data-i18n="Account">Registrar Pacientes</div>
+                </a>
+              </li>
+              <li class="menu-item active">
+                <a href="editarpaciente.html" class="menu-link">
+                  <div class="text-truncate" data-i18n="Notifications">Editar Información Paciente</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="infopaciente.html" class="menu-link">
+                  <div class="text-truncate" data-i18n="Connections">Información Completa </div>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+
+
+
+
+        </ul>
+      </aside>
+
+      <div class="layout-page">
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="bx bx-menu bx-sm"></i>
+            </a>
+          </div>
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item lh-1 me-3">
+                <span class="fw-semibold d-block">Sistema Salud Total</span>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Editar Información del Paciente</h5>
+                  </div>
+                  <div class="card-body">
+                    <form id="form-editar">
+                      <div class="row g-3">
+                        <div class="col-md-6">
+                          <label class="form-label">RUT</label>
+                          <input type="text" name="rut" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Nombre</label>
+                          <input type="text" name="nombre" maxlength="50" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" required
+                            class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Fecha de nacimiento</label>
+                          <input type="date" name="fechaNacimiento" required class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Teléfono</label>
+                          <div class="input-group">
+                            <span class="input-group-text">+56</span>
+                            <input type="text" name="telefono" maxlength="9" pattern="9[0-9]{8}"
+                              title="Debe comenzar con 9 y tener 9 dígitos" required class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Dirección</label>
+                          <input type="text" name="direccion" maxlength="100" required class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Alergias (si tiene)</label>
+                          <input type="text" id="alergias" name="alergias" maxlength="100" class="form-control"
+                            placeholder="Ej: Penicilina">
+                        </div>
+
+                        <div class="col-md-6">
+                          <label class="form-label">Seguro Médico</label>
+                          <select id="seguro" name="seguro" class="form-select" required>
+                            <option value="" disabled selected>Seleccione un tipo de seguro</option>
+                            <option value="Fonasa">Fonasa</option>
+                            <option value="Isapre">Isapre</option>
+                            <option value="Particular">Particular</option>
+                            <option value="Otro">Otro</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-12">
+                          <label class="form-label">Observación</label>
+                          <textarea name="observacion" rows="3" class="form-control"
+                            placeholder="Observaciones adicionales..."></textarea>
+                        </div>
+
+                      </div>
+                      <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                      </div>
+                      <div class="mt-2 text-danger" id="mensaje-error"></div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <footer class="content-footer footer bg-footer-theme">
+            <div class="container-xxl d-flex justify-content-between py-2">
+              <span>© 2025 - Clínica Salud Total</span>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="../assets/vendor/libs/popper/popper.js"></script>
+  <script src="../assets/vendor/js/bootstrap.js"></script>
+  <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="../assets/vendor/js/menu.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("rut");
+      const form = document.getElementById("form-editar");
+      const mensaje = document.getElementById("mensaje-error");
+
+      if (!form) return;
+      if (!id) {
+        mensaje.textContent = "ID del paciente no proporcionado.";
+        return;
+      }
+
+      let paciente = null;
+      let origen = null;
+
+      // 1. Buscar primero en localStorage
+      const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
+      const pacienteLocal = pacientesLocal.find(p => p.rut === id);
+      if (pacienteLocal) {
+        paciente = pacienteLocal;
+        origen = "local";
+        console.log("🧠 Cargado desde localStorage");
+      }
+
+      // 2. Luego intenta buscar en la API
+      try {
+        const res = await fetch(`http://localhost:8000/api/gestion_pacientes_app/${id}/`);
+        if (res.ok) {
+          paciente = await res.json();
+          origen = "api";
+          console.log("🌐 Cargado desde API");
+        }
+      } catch (err) {
+        console.warn("No se pudo contactar con la API:", err);
+      }
+
+      if (!paciente) {
+        mensaje.textContent = "Paciente no encontrado.";
+        return;
+      }
+
+      // Rellenar formulario
+      form.rut.value = paciente.rut || paciente.id_pac;
+      form.nombre.value = paciente.nombre || "";
+      form.fechaNacimiento.value = paciente.fechaNacimiento || paciente.fecha_nac || "";
+      form.telefono.value = paciente.telefono || "";
+      form.direccion.value = paciente.direccion || "";
+      document.getElementById("alergias").value = paciente.alergias || "";
+      document.getElementById("seguro").value = paciente.seguro || "";
+      form.observacion.value = paciente.observacion || "";
+
+      form.telefono.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, "");
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const telefono = form.telefono.value.trim();
+        if (!/^9[0-9]{8}$/.test(telefono)) {
+          mensaje.textContent = "El teléfono debe comenzar con 9 y tener 9 dígitos.";
+          return;
+        }
+
+        const nuevosDatos = {
+          rut: form.rut.value,
+          nombre: form.nombre.value.trim(),
+          fechaNacimiento: form.fechaNacimiento.value,
+          fecha_nac: form.fechaNacimiento.value,
+          telefono,
+          direccion: form.direccion.value.trim(),
+          alergias: form.alergias.value.trim(),
+          seguro: form.seguro.value.trim(),
+          observacion: form.observacion.value.trim()
+        };
+
+        if (origen === "local") {
+          const nuevosPacientes = pacientesLocal.map(p =>
+            p.rut === id ? nuevosDatos : p
+          );
+          localStorage.setItem("pacientesData", JSON.stringify(nuevosPacientes));
+          mensaje.textContent = "Paciente actualizado en LocalStorage.";
+          setTimeout(() => window.location.href = "index.html", 1500);
+        } else if (origen === "api") {
+          try {
+            const res = await fetch(`http://localhost:8000/api/gestion_pacientes_app/${id}/`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(nuevosDatos)
+            });
+
+            if (res.ok) {
+              mensaje.textContent = "Paciente actualizado correctamente.";
+              setTimeout(() => window.location.href = "index.html", 1500);
+            } else {
+              const error = await res.json();
+              console.error("Error al actualizar:", error);
+              mensaje.textContent = "Error al actualizar el paciente (ver consola).";
+            }
+          } catch (err) {
+            console.error("Error al conectar con API:", err);
+            mensaje.textContent = "Error al conectarse con el servidor.";
+          }
+        } else {
+          mensaje.textContent = "No se pudo determinar el origen del paciente.";
+        }
+      });
+    });
+  </script>
+
+
+</body>
+
+</html>

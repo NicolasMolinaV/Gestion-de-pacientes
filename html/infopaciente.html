@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="es" class="layout-menu-fixed layout-compact" data-assets-path="../assets/"
+  data-template="vertical-menu-template-free">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>Información Completa Paciente</title>
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/fonts/iconify-icons.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <script src="../assets/vendor/js/helpers.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <style>
+    .registro-formulario {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .registro-formulario label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    .registro-formulario input[type="text"],
+    .registro-formulario textarea,
+    .registro-formulario select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .checkbox-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .checkbox-grid .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-grid label {
+      flex: 0 0 200px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal;
+    }
+
+    .acciones {
+      margin-top: 20px;
+    }
+
+    #modal-detalle {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      /* Muy alto para estar por encima de todo */
+    }
+
+    #modal-detalle .contenido {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: 50px auto;
+      position: relative;
+    }
+
+    #modal-detalle .contenido button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .vacunas-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+    }
+
+    .vacunas-grid .form-check {
+      flex: 0 0 calc(33.333% - 24px);
+      /* 3 columnas */
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo">
+              <span class="text-primary">
+                <img src="../assets/img/favicon/Logo.png" width="140" style="position: relative; left: 20px;" />
+              </span>
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2"></span>
+          </a>
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="bx bx-chevron-left d-block d-xl-none align-middle"></i>
+          </a>
+        </div>
+        <div class="menu-divider mt-0"></div>
+        <div class="menu-inner-shadow"></div>
+        <ul class="menu-inner py-1">
+          <li class="menu-item">
+            <a href="index.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-smile"></i>
+              <div class="text-truncate">Inicio</div>
+            </a>
+          </li>
+          <li class="menu-item active open">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class="menu-icon tf-icons bx bx-dock-top"></i>
+              <div class="text-truncate">Pacientes</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item"><a href="registrar.html" class="menu-link">Registrar Pacientes</a></li>
+              <li class="menu-item"><a href="editarpaciente.html" class="menu-link">Editar Información Paciente</a></li>
+              <li class="menu-item active"><a href="infopaciente.html" class="menu-link">Información Completa</a></li>
+            </ul>
+          </li>
+        </ul>
+      </aside>
+      <!-- / Menu -->
+
+      <!-- Content -->
+      <div class="layout-page">
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="bx bx-menu bx-sm"></i>
+            </a>
+          </div>
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item lh-1 me-3">
+                <span class="fw-semibold d-block">Sistema Salud Total</span>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="card mb-4">
+              <h4 class="card-header fw-bold">Información Médica del Paciente</h4>
+              <div class="card-body">
+
+                <div class="info-paciente" id="info-paciente"></div>
+
+                <h5 class="mt-4">Registros Médicos</h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Médico</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabla-historial"></tbody>
+                </table>
+
+                <div class="acciones">
+                  <button onclick="mostrarFormulario()" class="btn btn-primary mt-3">+ Nuevo Registro Médico</button>
+
+                  <form id="form-registro">
+                    <label>Medicamentos actuales:</label>
+                    <input type="text" id="medicamentos" class="form-control mb-3">
+
+                    <div class="col-md-6">
+                      <label class="form-label">Médico Asignado</label>
+                      <select name="id_medico" id="medico" class="form-select" required>
+                        <option value="" disabled selected>Seleccione médico</option>
+                      </select>
+                    </div>
+
+                    <div class="mt-4">
+                      <label class="form-label">Vacunas Aplicadas:</label>
+                      <div id="vacunasContainer" class="vacunas-grid"></div>
+                    </div>
+
+                    <div class="acciones mt-3">
+                      <button type="submit" class="btn btn-success">Guardar Registro</button>
+                    </div>
+                  </form>
+
+
+                  <div id="modal-detalle">
+                    <div class="contenido">
+                      <button onclick="cerrarModal()">×</button>
+                      <h3>Detalles del Registro Médico</h3>
+                      <div id="contenido-detalle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <footer class="content-footer footer bg-footer-theme">
+                <div class="container-xxl d-flex justify-content-between py-2">
+                  <span>© 2025 - Clínica Salud Total</span>
+                </div>
+              </footer>
+              <div class="content-backdrop fade"></div>
+            </div>
+          </div>
+
+
+          <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const vacunas = [
+                "BCG", "Hepatitis B", "Hexavalente", "Neumocócica conjugada 13 valente", "Meningocócica recombinante serogrupo B",
+                "Triple Vírica (SRP)", "Meningocócica conjugada tetravalente", "Hepatitis A", "Varicela", "Fiebre Amarilla (Rapa Nui)",
+                "DTPa", "Virus Papiloma Humano (VPH)", "Neumocócica 23V", "COVID-19", "Influenza", "VRS", "Mpox"
+              ];
+
+              const urlParams = new URLSearchParams(window.location.search);
+              const rut = urlParams.get("rut");
+              const infoDiv = document.getElementById("info-paciente");
+              const tabla = document.getElementById("tabla-historial");
+              const form = document.getElementById("form-registro");
+              const historialKey = `historial-${rut}`;
+
+              generarCheckboxVacunas();
+              obtenerPaciente();
+              renderHistorial();
+              cargarMedicos();
+
+              function generarCheckboxVacunas() {
+                const container = document.getElementById("vacunasContainer");
+                container.innerHTML = "";
+                vacunas.forEach(vacuna => {
+                  const div = document.createElement("div");
+                  div.className = "form-check";
+                  div.innerHTML = `
+          <input class="form-check-input" type="checkbox" value="${vacuna}" id="vacuna-${vacuna}">
+          <label class="form-check-label" for="vacuna-${vacuna}">${vacuna}</label>
+        `;
+                  container.appendChild(div);
+                });
+              }
+
+              function obtenerVacunasAplicadas() {
+                return vacunas.filter(vacuna => document.getElementById(`vacuna-${vacuna}`)?.checked);
+              }
+
+              function formatearFecha(fechaISO) {
+                if (!fechaISO) return "-";
+                const [año, mes, dia] = fechaISO.split("-");
+                return `${dia}-${mes}-${año}`;
+              }
+
+              async function obtenerPaciente() {
+                let paciente = null;
+                const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
+                paciente = pacientesLocal.find(p => p.rut === rut);
+
+                if (!paciente) {
+                  try {
+                    const res = await fetch(`http://localhost:8000/api/gestion_pacientes_app/${rut}/`);
+                    if (res.ok) {
+                      paciente = await res.json();
+                    }
+                  } catch (error) {
+                    console.error("Error al obtener paciente desde API:", error);
+                  }
+                }
+
+                if (paciente) {
+                  infoDiv.innerHTML = `
+          <p><strong>Nombre:</strong> ${paciente.nombre}</p>
+          <p><strong>RUT:</strong> ${paciente.rut || paciente.id_pac}</p>
+          <p><strong>Fecha de Nacimiento:</strong> ${formatearFecha(paciente.fechaNacimiento || paciente.fecha_nac)}</p>
+          <p><strong>Teléfono:</strong> +56 ${paciente.telefono || "-"}</p>
+          <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
+        `;
+                } else {
+                  infoDiv.innerHTML = `<p class="text-danger">No se encontró el paciente.</p>`;
+                }
+              }
+
+              function renderHistorial() {
+                const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
+                tabla.innerHTML = historial.length
+                  ? historial.map((entry, index) => `
+            <tr>
+              <td>${entry.fecha}</td>
+              <td>${entry.medico}</td>
+              <td><button onclick="verDetalles(${index})" class="btn btn-outline-primary btn-sm">Más detalles</button></td>
+            </tr>
+          `).join("")
+                  : `<tr><td colspan="3">Sin registros aún.</td></tr>`;
+              }
+
+              form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const fecha = new Date().toLocaleDateString("es-CL");
+                const medicamentos = document.getElementById("medicamentos").value.trim();
+                const medicoSelect = document.querySelector('select[name="id_medico"]');
+                const medicoId = parseInt(medicoSelect.value);
+                const medicoNombre = medicoSelect.options[medicoSelect.selectedIndex].textContent;
+                const vacunasAplicadas = obtenerVacunasAplicadas();
+
+                // Guardar en localStorage
+                const nueva = {
+                  fecha,
+                  medicamentos,
+                  medico: medicoNombre,
+                  vacunas: vacunasAplicadas
+                };
+                const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
+                historial.push(nueva);
+                localStorage.setItem(historialKey, JSON.stringify(historial));
+                renderHistorial();
+
+                // Enviar al backend
+                const payload = {
+                  nombre: "Plan asignado el " + fecha,
+                  descripcion_plan: medicamentos || "Sin descripción",
+                  vacunas: vacunasAplicadas,
+                  paciente: parseInt(rut),
+                  medico: medicoId
+                };
+
+                try {
+                  const res = await fetch("http://localhost:8000/api/registro-medico/", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                  });
+
+                  if (res.ok) {
+                    alert("✅ Registro médico guardado correctamente");
+                    form.reset();
+                    form.style.display = "none";
+                  } else {
+                    alert("❌ Error al guardar en la base de datos");
+                  }
+                } catch (err) {
+                  console.error("Error al enviar al backend:", err);
+                  alert("❌ Error de conexión con el servidor");
+                }
+              });
+
+              window.mostrarFormulario = () => {
+                form.reset();
+                form.style.display = "block";
+              };
+
+              window.verDetalles = (index) => {
+                const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
+                const entry = historial[index];
+                const aplicadas = entry.vacunas || [];
+                const noAplicadas = vacunas.filter(v => !aplicadas.includes(v));
+
+                const vacunasAplicadasHTML = aplicadas.length
+                  ? `<ul>${aplicadas.map(v => `<li>${v}</li>`).join("")}</ul>`
+                  : "<p>Ninguna</p>";
+
+                const vacunasNoAplicadasHTML = noAplicadas.length
+                  ? `<ul>${noAplicadas.map(v => `<li>${v}</li>`).join("")}</ul>`
+                  : "<p>Todas aplicadas</p>";
+
+                const html = `
+        <p><strong>Fecha:</strong> ${entry.fecha}</p>
+        <p><strong>Medicamentos Actuales:</strong> ${entry.medicamentos || 'No'}</p>
+        <p><strong>Médico:</strong> ${entry.medico}</p>
+        <hr />
+        <p><strong>Vacunas Aplicadas:</strong></p>${vacunasAplicadasHTML}
+        <p><strong>Vacunas No Aplicadas:</strong></p>${vacunasNoAplicadasHTML}
+      `;
+
+                document.getElementById("contenido-detalle").innerHTML = html;
+                document.getElementById("modal-detalle").style.display = "block";
+              };
+
+              window.cerrarModal = () => {
+                document.getElementById("modal-detalle").style.display = "none";
+              };
+
+              function cargarMedicos() {
+                fetch("http://localhost:8000/api/medicos/")
+                  .then(res => res.json())
+                  .then(data => {
+                    const selectMed = document.querySelector('select[name="id_medico"]');
+                    data.forEach(med => {
+                      const opt = document.createElement("option");
+                      opt.value = med.id;
+                      opt.textContent = med.nombre_completo;
+                      selectMed.appendChild(opt);
+                    });
+                  })
+                  .catch(err => console.error("Error al cargar médicos:", err));
+              }
+            });
+          </script>
+
+
+          <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+
+          <script src="../assets/vendor/libs/popper/popper.js"></script>
+          <script src="../assets/vendor/js/bootstrap.js"></script>
+
+          <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+          <script src="../assets/vendor/js/menu.js"></script>
+
+          <!-- endbuild -->
+
+          <!-- Vendors JS -->
+
+          <!-- Main JS -->
+
+          <script src="../assets/js/main.js"></script>
+
+          <!-- Page JS -->
+
+          <!-- Place this tag before closing body tag for github widget button. -->
+          <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>
