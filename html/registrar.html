@@ -295,7 +295,7 @@
   <script src="../assets/js/validar-rut.js"></script>
 
   <script>
-    const apiUrl = "http://localhost:8000/api/gestion_pacientes_app/";
+    const apiUrl = "https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/";
     let maxTelefonos = 3;
 
     function agregarTelefonoEmergencia() {
@@ -515,7 +515,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      fetch('http://localhost:8000/api/medicos/')
+      fetch('https://integracion-1k5l.onrender.com/api/medicos/')
         .then(res => res.json())
         .then(data => {
           const selectMed = document.querySelector('select[name="id_medico"]');
@@ -528,7 +528,7 @@
         })
         .catch(err => console.error('Error al cargar médicos:', err));
 
-      fetch('http://localhost:8000/api/grupos_sanguineos/')
+      fetch('https://integracion-1k5l.onrender.com/api/grupos_sanguineos/')
         .then(res => res.json())
         .then(data => {
           const selectGrupo = document.querySelector('select[name="grupo_sangre_id"]');
