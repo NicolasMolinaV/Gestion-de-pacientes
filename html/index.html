@@ -289,7 +289,7 @@
       }
 
       function cargarDesdeApi() {
-        fetch("http://localhost:8000/api/gestion_pacientes_app/")
+        fetch("https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/")
           .then(res => res.json())
           .then(data => renderPacientes(data, "api"))
           .catch(err => {
@@ -307,7 +307,7 @@
             mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
             cargarDesdeLocal();
           } else {
-            fetch(`http://localhost:8000/api/gestion_pacientes_app/${id}/`, {
+            fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`, {
               method: 'DELETE'
             })
               .then(resp => {
