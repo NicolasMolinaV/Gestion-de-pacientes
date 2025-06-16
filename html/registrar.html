@@ -518,7 +518,7 @@
       fetch('https://integracion-1k5l.onrender.com/api/medicos/')
         .then(res => res.json())
         .then(data => {
-          const selectMed = document.querySelector('select[name="id_medico"]');
+          const selectMed = document.querySelector('select[name="id_med"]');
           data.forEach(med => {
             const opt = document.createElement('option');
             opt.value = med.id;
