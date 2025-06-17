@@ -311,27 +311,34 @@
       }
 
       window.confirmarEliminacion = function (origen, id) {
-        if (confirm("¿Estás seguro de que deseas eliminar este paciente?\nEsta acción no se puede deshacer.")) {
-          if (origen === "local") {
-            const pacientes = JSON.parse(localStorage.getItem("pacientesData")) || [];
-            const nuevos = pacientes.filter(p => p.rut && p.rut !== id);
-            localStorage.setItem("pacientesData", JSON.stringify(nuevos));
-            mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
-            cargarDesdeLocal();
-          } else {
-            fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`, {
-              method: 'DELETE'
+        if (!confirm("¿Estás seguro de que deseas eliminar este paciente?\nEsta acción no se puede deshacer.")) {
+          return; // Canceló la eliminación
+        }
+
+        if (origen === "local") {
+          const pacientes = JSON.parse(localStorage.getItem("pacientesData")) || [];
+          const nuevos = pacientes.filter(p => p.rut && p.rut !== id);
+          localStorage.setItem("pacientesData", JSON.stringify(nuevos));
+          mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
+          cargarDesdeLocal();
+        } else {
+          // Eliminar desde API usando el id_pac
+          fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`, {
+            method: 'DELETE'
+          })
+            .then(resp => {
+              if (resp.ok) {
+                mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
+                cargarDesdeApi();
+              } else {
+                mostrarNotificacion("❌ Error", "No se pudo eliminar el paciente desde la API.");
+                console.warn("No se pudo eliminar desde API, status:", resp.status);
+              }
             })
-              .then(resp => {
-                if (resp.ok) {
-                  mostrarNotificacion("✔ Éxito", "Paciente eliminado correctamente.");
-                  cargarDesdeApi();
-                } else {
-                  console.warn("No se pudo eliminar desde API");
-                }
-              })
-              .catch(err => console.error("Error al eliminar desde API:", err));
-          }
+            .catch(err => {
+              mostrarNotificacion("❌ Error", "Error al eliminar desde la API.");
+              console.error("Error al eliminar desde API:", err);
+            });
         }
       };
 
