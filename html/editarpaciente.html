@@ -229,7 +229,7 @@
 
       // 2. Luego intenta buscar en la API
       try {
-        const res = await fetch(`http://localhost:8000/api/gestion_pacientes_app/${id}/`);
+        const res = await fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`);
         if (res.ok) {
           paciente = await res.json();
           origen = "api";
@@ -288,7 +288,7 @@
           setTimeout(() => window.location.href = "index.html", 1500);
         } else if (origen === "api") {
           try {
-            const res = await fetch(`http://localhost:8000/api/gestion_pacientes_app/${id}/`, {
+            const res = await fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`, {
               method: "PATCH",
               headers: {
                 "Content-Type": "application/json"

@@ -221,7 +221,7 @@
 
                     <div class="col-md-6">
                       <label class="form-label">Médico Asignado</label>
-                      <select name="id_medico" id="medico" class="form-select" required>
+                      <select id="medicosSelect" name="id_medico" class="form-select" required>
                         <option value="" disabled selected>Seleccione médico</option>
                       </select>
                     </div>
@@ -432,18 +432,22 @@
               };
 
               function cargarMedicos() {
-                fetch("https://integracion-1k5l.onrender.com/api/medicos/")
-                  .then(res => res.json())
+                fetch('https://integracion-1k5l.onrender.com/api/medicos/')
+                  .then(resp => resp.json())
                   .then(data => {
-                    const selectMed = document.querySelector('select[name="id_medico"]');
-                    data.forEach(med => {
-                      const opt = document.createElement("option");
-                      opt.value = med.id;
-                      opt.textContent = med.nombre_completo;
-                      selectMed.appendChild(opt);
+                    const select = document.getElementById("medicosSelect");
+                    if (!select) {
+                      console.error("El elemento con ID 'medicosSelect' no existe en el DOM.");
+                      return;
+                    }
+                    data.forEach(medico => {
+                      const option = document.createElement("option");
+                      option.value = medico.id_med;
+                      option.textContent = `${medico.nombre} ${medico.apellido} - ${medico.especialidad?.nombre || "Sin especialidad"}`;
+                      select.appendChild(option);
                     });
                   })
-                  .catch(err => console.error("Error al cargar médicos:", err));
+                  .catch(err => console.error('Error al cargar médicos:', err));
               }
             });
           </script>
