@@ -417,20 +417,20 @@
         }
       });
 
-        document.getElementById('rut').addEventListener('input', function (e) {
-    let valor = e.target.value.replace(/[^\dkK]/g, '').toUpperCase();
+      document.getElementById('rut').addEventListener('input', function (e) {
+        let valor = e.target.value.replace(/[^\dkK]/g, '').toUpperCase();
 
-    if (valor.length > 1) {
-      let cuerpo = valor.slice(0, -1);
-      let dv = valor.slice(-1);
+        if (valor.length > 1) {
+          let cuerpo = valor.slice(0, -1);
+          let dv = valor.slice(-1);
 
-      cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+          cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-      e.target.value = `${cuerpo}-${dv}`;
-    } else {
-      e.target.value = valor;
-    }
-  });
+          e.target.value = `${cuerpo}-${dv}`;
+        } else {
+          e.target.value = valor;
+        }
+      });
 
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -516,14 +516,18 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       fetch('https://integracion-1k5l.onrender.com/api/medicos/')
-        .then(res => res.json())
+        .then(resp => resp.json())
         .then(data => {
-          const selectMed = document.querySelector('select[name="id_med"]');
-          data.forEach(med => {
-            const opt = document.createElement('option');
-            opt.value = med.id;
-            opt.textContent = med.nombre;
-            selectMed.appendChild(opt);
+          const select = document.getElementById("medicosSelect");
+          if (!select) {
+            console.error("El elemento con ID 'medicosSelect' no existe en el DOM.");
+            return;
+          }
+          data.forEach(medico => {
+            const option = document.createElement("option");
+            option.value = medico.id_med;
+            option.textContent = `${medico.nombre} ${medico.apellido} - ${medico.especialidad?.nombre || "Sin especialidad"}`;
+            select.appendChild(option);
           });
         })
         .catch(err => console.error('Error al cargar médicos:', err));
