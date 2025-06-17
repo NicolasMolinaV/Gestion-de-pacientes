@@ -308,7 +308,7 @@
 
                 if (!paciente) {
                   try {
-                    const res = await fetch(`http://localhost:8000/api/gestion_pacientes_app/${rut}/`);
+                    const res = await fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`);
                     if (res.ok) {
                       paciente = await res.json();
                     }
@@ -432,7 +432,7 @@
               };
 
               function cargarMedicos() {
-                fetch("http://localhost:8000/api/medicos/")
+                fetch("https://integracion-1k5l.onrender.com/api/medicos/")
                   .then(res => res.json())
                   .then(data => {
                     const selectMed = document.querySelector('select[name="id_medico"]');

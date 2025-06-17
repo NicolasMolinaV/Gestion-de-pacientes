@@ -528,7 +528,7 @@
         })
         .catch(err => console.error('Error al cargar médicos:', err));
 
-      fetch('https://integracion-1k5l.onrender.com/api/grupos_sanguineos/')
+      fetch('https://crud-gestion-pacientes.onrender.com/api/grupos_sanguineos/')
         .then(res => res.json())
         .then(data => {
           const selectGrupo = document.querySelector('select[name="grupo_sangre_id"]');
