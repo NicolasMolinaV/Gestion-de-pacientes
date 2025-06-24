@@ -447,6 +447,14 @@
         const telefonoEmergencia = document.querySelector('.telefono-emergencia')?.value || '';
         const parentesco = document.querySelector('.parentesco')?.value || '';
 
+        // Validación: verificar que el ID del médico sea válido
+        const medicoSeleccionado = parseInt(form.id_medico.value);
+        if (isNaN(medicoSeleccionado) || medicoSeleccionado === 0) {
+          console.error("Debe seleccionar un médico válido.");
+          alert("Seleccione un médico válido antes de continuar.");
+          return;
+        }
+
         const nuevoPaciente = {
           rut: form.rut.value.trim(),
           id_pac: parseInt(form.rut.value.trim()),
@@ -466,7 +474,7 @@
             contacto: parseInt(document.querySelector('.telefono-emergencia')?.value || '0'),
             parentesco: document.querySelector('.parentesco')?.value || '',
             paciente: 1, // si esta es la FK al paciente, debe ser int
-            medico: parseInt(form.id_medico.value)
+            medico: medicoSeleccionado, // Usamos el mismo médico seleccionado
           }
         };
         try {
