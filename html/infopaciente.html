@@ -308,7 +308,7 @@
 
                 if (!paciente) {
                   try {
-                    const res = await fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${id}/`);
+                    const res = await fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${rut}/`);
                     if (res.ok) {
                       paciente = await res.json();
                     }
