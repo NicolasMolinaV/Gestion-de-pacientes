@@ -344,6 +344,10 @@
                   : `<tr><td colspan="3">Sin registros aún.</td></tr>`;
               }
 
+              function normalizarRut(rut) {
+                return rut.replace(/\./g, '').replace(/-/g, '');
+              }
+
               form.addEventListener("submit", async (e) => {
                 e.preventDefault();
 
@@ -360,16 +364,19 @@
                   return;
                 }
 
+                // Normalizar el RUT de la URL
+                const rutNormalizado = normalizarRut(rut);
+
                 // Obtener id_pac correcto desde localStorage
                 let idPaciente = null;
                 const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
-                const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
+                const pacienteEncontrado = pacientesLocal.find(p => normalizarRut(p.rut) === rutNormalizado);
                 idPaciente = pacienteEncontrado?.id_pac;
-                
+
                 if (!idPaciente) {
                   alert("Paciente no encontrado. No se puede guardar el registro.");
                   console.log("No se encontró el paciente. Verifica los siguientes datos:");
-                  console.log("RUT:", rut);
+                  console.log("RUT (normalizado):", rutNormalizado);
                   console.log("Pacientes almacenados localmente:", pacientesLocal);
                   console.log("Resultado de búsqueda en localStorage:", pacienteEncontrado);
                   return;
