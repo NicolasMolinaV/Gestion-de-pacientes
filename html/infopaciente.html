@@ -304,7 +304,8 @@
               async function obtenerPaciente() {
                 let paciente = null;
                 const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
-                paciente = pacientesLocal.find(p => p.rut === rut);
+                const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
+                const idPaciente = pacienteEncontrado?.id_pac;
 
                 if (!paciente) {
                   try {
@@ -369,7 +370,7 @@
                   nombre: "Plan asignado el " + fecha,
                   descripcion_plan: medicamentos || "Sin descripción",
                   vacunas: vacunasAplicadas,
-                  paciente: parseInt(rut),
+                  paciente: idPaciente,
                   medico: medicoId
                 };
                 console.log("Payload enviado al backend:", payload);
