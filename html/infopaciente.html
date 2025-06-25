@@ -302,11 +302,9 @@
               }
 
               async function obtenerPaciente() {
-                let idPaciente = null;
-
+                let paciente = null;
                 const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
-                const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
-                idPaciente = pacienteEncontrado?.id_pac;
+                paciente = pacientesLocal.find(p => p.rut === rut);
 
                 if (!paciente) {
                   try {
@@ -371,7 +369,7 @@
                   nombre: "Plan asignado el " + fecha,
                   descripcion_plan: medicamentos || "Sin descripción",
                   vacunas: vacunasAplicadas,
-                  paciente: idPaciente,
+                  paciente: rut,
                   medico: medicoId
                 };
                 console.log("Payload enviado al backend:", payload);
@@ -446,7 +444,7 @@
                     data.forEach(medico => {
                       const option = document.createElement("option");
                       option.value = medico.id;
-                      option.textContent = medico.nombre_completo;;
+                      option.textContent = medico.nombre_completo;
                       select.appendChild(option);
                     });
                   })
