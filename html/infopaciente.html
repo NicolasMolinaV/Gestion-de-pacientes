@@ -345,14 +345,32 @@
 
               form.addEventListener("submit", async (e) => {
                 e.preventDefault();
+
                 const fecha = new Date().toLocaleDateString("es-CL");
                 const medicamentos = document.getElementById("medicamentos").value.trim();
                 const medicoSelect = document.querySelector('select[name="id_medico"]');
                 const medicoId = parseInt(medicoSelect.value);
-                const medicoNombre = medicoSelect.options[medicoSelect.selectedIndex].textContent;
+                const medicoNombre = medicoSelect.options[medicoSelect.selectedIndex]?.textContent || "";
                 const vacunasAplicadas = obtenerVacunasAplicadas();
 
-                // Guardar en localStorage
+                // Validar médico
+                if (!medicoId || isNaN(medicoId)) {
+                  alert("Debe seleccionar un médico válido.");
+                  return;
+                }
+
+                // Obtener id_pac correcto desde localStorage
+                let idPaciente = null;
+                const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
+                const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
+                idPaciente = pacienteEncontrado?.id_pac;
+
+                if (!idPaciente) {
+                  alert("Paciente no encontrado. No se puede guardar el registro.");
+                  return;
+                }
+
+                // Guardar en localStorage (historial local)
                 const nueva = {
                   fecha,
                   medicamentos,
@@ -364,14 +382,15 @@
                 localStorage.setItem(historialKey, JSON.stringify(historial));
                 renderHistorial();
 
-                // Enviar al backend
+                // Payload correcto
                 const payload = {
                   nombre: "Plan asignado el " + fecha,
                   descripcion_plan: medicamentos || "Sin descripción",
-                  vacunas: vacunasAplicadas,
-                  paciente: rut,
+                  vacunas: vacunasAplicadas || [],
+                  paciente: idPaciente,
                   medico: medicoId
                 };
+
                 console.log("Payload enviado al backend:", payload);
 
                 try {
@@ -388,13 +407,16 @@
                     form.reset();
                     form.style.display = "none";
                   } else {
-                    alert("Error al guardar en la base de datos");
+                    const errorText = await res.text();
+                    console.error("Error al guardar:", errorText);
+                    alert("Error al guardar en la base de datos: " + errorText);
                   }
                 } catch (err) {
                   console.error("Error al enviar al backend:", err);
                   alert("Error de conexión con el servidor");
                 }
               });
+
 
               window.mostrarFormulario = () => {
                 form.reset();
