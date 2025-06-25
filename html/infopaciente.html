@@ -365,11 +365,13 @@
                 const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
                 const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
                 idPaciente = pacienteEncontrado?.id_pac;
-
+                
                 if (!idPaciente) {
                   alert("Paciente no encontrado. No se puede guardar el registro.");
-                  console.log("Paciente no funca:", err);
-
+                  console.log("No se encontró el paciente. Verifica los siguientes datos:");
+                  console.log("RUT:", rut);
+                  console.log("Pacientes almacenados localmente:", pacientesLocal);
+                  console.log("Resultado de búsqueda en localStorage:", pacienteEncontrado);
                   return;
                 }
 
