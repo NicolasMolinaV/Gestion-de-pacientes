@@ -403,7 +403,7 @@
                   nombre: "Plan asignado el " + fecha,
                   descripcion_plan: medicamentos || "Sin descripción",
                   vacunas: vacunasAplicadas || [],
-                  paciente: rutNormalizado,
+                  paciente: Number(rutNormalizado),  // <-- Cambiar a número
                   medico: medicoId,
                 };
 
