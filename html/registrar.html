@@ -241,7 +241,7 @@
 
                     <div class="col-md-6">
                       <label class="form-label">Médico Asignado</label>
-                      <select id="medicosSelect" name="id_medico" class="form-select" required>
+                      <select name="id_medico" class="form-select" required>
                         <option value="" disabled selected>Seleccione médico</option>
                       </select>
                     </div>
@@ -477,7 +477,7 @@
             contacto: parseInt(document.querySelector('.telefono-emergencia')?.value || '0'),
             parentesco: document.querySelector('.parentesco')?.value || '',
             paciente: 1, // si esta es la FK al paciente, debe ser int
-            medico: medicoSeleccionado, // Usamos el mismo médico seleccionado
+            medico: parseInt(form.id_medico.value)
           }
         };
         try {
@@ -526,19 +526,15 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      fetch('https://crud-gestion-pacientes.onrender.com/api/medicos/')
-        .then(resp => resp.json())
+      fetch('http://localhost:8000/api/medicos/')
+        .then(res => res.json())
         .then(data => {
-          const select = document.getElementById("medicosSelect");
-          if (!select) {
-            console.error("El elemento con ID 'medicosSelect' no existe en el DOM.");
-            return;
-          }
-          data.forEach(medico => {
-            const option = document.createElement("option");
-            option.value = medico.id_med;
-            option.textContent = `${medico.nombre} ${medico.apellido} - ${medico.especialidad?.nombre || "Sin especialidad"}`;
-            select.appendChild(option);
+          const selectMed = document.querySelector('select[name="id_medico"]');
+          data.forEach(med => {
+            const opt = document.createElement('option');
+            opt.value = med.id;
+            opt.textContent = med.nombre_completo;
+            selectMed.appendChild(opt);
           });
         })
         .catch(err => console.error('Error al cargar médicos:', err));
