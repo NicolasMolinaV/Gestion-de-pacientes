@@ -266,8 +266,7 @@
               ];
 
               const urlParams = new URLSearchParams(window.location.search);
-              const rut = urlParams.get("rut"); // Obtener el RUT de la URL
-              const origenDatos = urlParams.get("origen") || "api"; // Determinar el origen de los datos
+              const rut = urlParams.get("rut");
               const infoDiv = document.getElementById("info-paciente");
               const tabla = document.getElementById("tabla-historial");
               const form = document.getElementById("form-registro");
@@ -285,9 +284,9 @@
                   const div = document.createElement("div");
                   div.className = "form-check";
                   div.innerHTML = `
-          <input class="form-check-input" type="checkbox" value="${vacuna}" id="vacuna-${vacuna}">
-          <label class="form-check-label" for="vacuna-${vacuna}">${vacuna}</label>
-        `;
+        <input class="form-check-input" type="checkbox" value="${vacuna}" id="vacuna-${vacuna}">
+        <label class="form-check-label" for="vacuna-${vacuna}">${vacuna}</label>
+      `;
                   container.appendChild(div);
                 });
               }
@@ -304,11 +303,10 @@
 
               async function obtenerPaciente() {
                 let paciente = null;
+                const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
+                paciente = pacientesLocal.find(p => p.rut === rut);
 
-                if (origenDatos === "local") {
-                  const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
-                  paciente = pacientesLocal.find(p => normalizarRut(p.rut) === normalizarRut(rut));
-                } else {
+                if (!paciente) {
                   try {
                     const res = await fetch(`https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/${rut}/`);
                     if (res.ok) {
@@ -321,12 +319,12 @@
 
                 if (paciente) {
                   infoDiv.innerHTML = `
-          <p><strong>Nombre:</strong> ${paciente.nombre}</p>
-          <p><strong>RUT:</strong> ${paciente.rut || paciente.id_pac}</p>
-          <p><strong>Fecha de Nacimiento:</strong> ${formatearFecha(paciente.fechaNacimiento || paciente.fecha_nac)}</p>
-          <p><strong>Teléfono:</strong> +56 ${paciente.telefono || "-"}</p>
-          <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
-        `;
+        <p><strong>Nombre:</strong> ${paciente.nombre}</p>
+        <p><strong>RUT:</strong> ${paciente.rut || paciente.id_pac}</p>
+        <p><strong>Fecha de Nacimiento:</strong> ${formatearFecha(paciente.fechaNacimiento || paciente.fecha_nac)}</p>
+        <p><strong>Teléfono:</strong> +56 ${paciente.telefono || "-"}</p>
+        <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
+      `;
                 } else {
                   infoDiv.innerHTML = `<p class="text-danger">No se encontró el paciente.</p>`;
                 }
@@ -346,7 +344,7 @@
               }
 
               function normalizarRut(rut) {
-                return rut.replace(/\./g, '').replace(/-/g, '');
+                return rut.replace(/\./g, '').replace(/-/g, '').toUpperCase();
               }
 
               form.addEventListener("submit", async (e) => {
@@ -364,13 +362,52 @@
                   return;
                 }
 
+                // Normalizamos el RUT (sin puntos ni guion, mayúsculas)
+                const rutNormalizado = normalizarRut(rut);
+
+                // Obtener pacientes localmente y normalizarlos
+                const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
+                const pacientesNormalizados = pacientesLocal.map(paciente => ({
+                  ...paciente,
+                  rut: normalizarRut(paciente.rut),
+                }));
+
+                localStorage.setItem("pacientesData", JSON.stringify(pacientesNormalizados));
+
+                const pacienteEncontrado = pacientesNormalizados.find(p => p.rut === rutNormalizado);
+                const idPaciente = pacienteEncontrado?.id_pac || rutNormalizado; // Ojo aquí: si usas rut como id, envía rutNormalizado
+
+                if (!idPaciente) {
+                  alert("Paciente no encontrado. No se puede guardar el registro.");
+                  console.log("No se encontró el paciente. Datos:");
+                  console.log("RUT normalizado:", rutNormalizado);
+                  console.log("Pacientes local:", pacientesNormalizados);
+                  console.log("Paciente encontrado:", pacienteEncontrado);
+                  return;
+                }
+
+                // Guardar en historial local
+                const nueva = {
+                  fecha,
+                  medicamentos,
+                  medico: medicoNombre,
+                  vacunas: vacunasAplicadas,
+                };
+                const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
+                historial.push(nueva);
+                localStorage.setItem(historialKey, JSON.stringify(historial));
+                renderHistorial();
+
+                // Payload para backend: paciente = RUT sin puntos ni guion
                 const payload = {
                   nombre: "Plan asignado el " + fecha,
                   descripcion_plan: medicamentos || "Sin descripción",
                   vacunas: vacunasAplicadas || [],
-                  paciente: rut,
+                  paciente: rutNormalizado,
                   medico: medicoId,
                 };
+
+                console.log("Payload enviado al backend:", payload);
 
                 try {
                   const res = await fetch("https://crud-gestion-pacientes.onrender.com/api/registro-medico/", {
@@ -379,21 +416,56 @@
                     body: JSON.stringify(payload),
                   });
 
-                  if (!res.ok) {
+                  if (res.ok) {
+                    alert("Registro médico guardado correctamente");
+                    form.reset();
+                    form.style.display = "none";
+                  } else {
                     const errorText = await res.text();
-                    console.error("Error al guardar en el backend:", errorText);
-                    alert("Error al guardar en el servidor: " + errorText);
-                    return;
+                    console.error("Error al guardar:", errorText);
+                    alert("Error al guardar en la base de datos: " + errorText);
                   }
-
-                  alert("Registro médico guardado correctamente");
-                  form.reset();
-                  form.style.display = "none";
                 } catch (err) {
-                  console.error("Error de conexión:", err);
-                  alert("Error al intentar conectar con el servidor.");
+                  console.error("Error al enviar al backend:", err);
+                  alert("Error de conexión con el servidor");
                 }
               });
+
+              window.mostrarFormulario = () => {
+                form.reset();
+                form.style.display = "block";
+              };
+
+              window.verDetalles = (index) => {
+                const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
+                const entry = historial[index];
+                const aplicadas = entry.vacunas || [];
+                const noAplicadas = vacunas.filter(v => !aplicadas.includes(v));
+
+                const vacunasAplicadasHTML = aplicadas.length
+                  ? `<ul>${aplicadas.map(v => `<li>${v}</li>`).join("")}</ul>`
+                  : "<p>Ninguna</p>";
+
+                const vacunasNoAplicadasHTML = noAplicadas.length
+                  ? `<ul>${noAplicadas.map(v => `<li>${v}</li>`).join("")}</ul>`
+                  : "<p>Todas aplicadas</p>";
+
+                const html = `
+      <p><strong>Fecha:</strong> ${entry.fecha}</p>
+      <p><strong>Medicamentos Actuales:</strong> ${entry.medicamentos || 'No'}</p>
+      <p><strong>Médico:</strong> ${entry.medico}</p>
+      <hr />
+      <p><strong>Vacunas Aplicadas:</strong></p>${vacunasAplicadasHTML}
+      <p><strong>Vacunas No Aplicadas:</strong></p>${vacunasNoAplicadasHTML}
+    `;
+
+                document.getElementById("contenido-detalle").innerHTML = html;
+                document.getElementById("modal-detalle").style.display = "block";
+              };
+
+              window.cerrarModal = () => {
+                document.getElementById("modal-detalle").style.display = "none";
+              };
 
               function cargarMedicos() {
                 fetch('https://crud-gestion-pacientes.onrender.com/api/medicos/')
