@@ -526,7 +526,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      fetch('http://localhost:8000/api/medicos/')
+      fetch('https://crud-gestion-pacientes.onrender.com/api/medicos/')
         .then(res => res.json())
         .then(data => {
           const selectMed = document.querySelector('select[name="id_medico"]');
