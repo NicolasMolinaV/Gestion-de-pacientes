@@ -375,24 +375,23 @@
                 try {
                   const res = await fetch("https://crud-gestion-pacientes.onrender.com/api/registro-medico/", {
                     method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload),
                   });
 
-                  if (res.ok) {
-                    alert("Registro médico guardado correctamente");
-                    form.reset();
-                    form.style.display = "none";
-                  } else {
+                  if (!res.ok) {
                     const errorText = await res.text();
-                    console.error("Error al guardar:", errorText);
-                    alert("Error al guardar en la base de datos: " + errorText);
+                    console.error("Error al guardar en el backend:", errorText);
+                    alert("Error al guardar en el servidor: " + errorText);
+                    return;
                   }
+
+                  alert("Registro médico guardado correctamente");
+                  form.reset();
+                  form.style.display = "none";
                 } catch (err) {
-                  console.error("Error al enviar al backend:", err);
-                  alert("Error de conexión con el servidor");
+                  console.error("Error de conexión:", err);
+                  alert("Error al intentar conectar con el servidor.");
                 }
               });
 
