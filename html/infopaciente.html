@@ -302,10 +302,11 @@
               }
 
               async function obtenerPaciente() {
-                let paciente = null;
+                let idPaciente = null;
+
                 const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
                 const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
-                const idPaciente = pacienteEncontrado?.id_pac;
+                idPaciente = pacienteEncontrado?.id_pac;
 
                 if (!paciente) {
                   try {
