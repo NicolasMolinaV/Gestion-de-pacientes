@@ -444,7 +444,7 @@
                     data.forEach(medico => {
                       const option = document.createElement("option");
                       option.value = medico.id;
-                      option.textContent = `${medico.nombre} ${medico.apellido} - ${medico.especialidad?.nombre || "Sin especialidad"}`;
+                      option.textContent = medico.nombre_completo;;
                       select.appendChild(option);
                     });
                   })
