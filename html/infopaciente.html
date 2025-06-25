@@ -372,6 +372,7 @@
                   paciente: parseInt(rut),
                   medico: medicoId
                 };
+                console.log("Payload enviado al backend:", payload);
 
                 try {
                   const res = await fetch("https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/", {
