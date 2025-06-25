@@ -258,7 +258,6 @@
 
 
           <script>
-            let pacienteActual = null;
             document.addEventListener("DOMContentLoaded", () => {
               const vacunas = [
                 "BCG", "Hepatitis B", "Hexavalente", "Neumocócica conjugada 13 valente", "Meningocócica recombinante serogrupo B",
@@ -319,18 +318,16 @@
                 }
 
                 if (paciente) {
-                  pacienteActual = paciente; // ✅ Guardar paciente cargado
                   infoDiv.innerHTML = `
-    <p><strong>Nombre:</strong> ${paciente.nombre}</p>
-    <p><strong>RUT:</strong> ${paciente.rut || paciente.id_pac}</p>
-    <p><strong>Fecha de Nacimiento:</strong> ${formatearFecha(paciente.fechaNacimiento || paciente.fecha_nac)}</p>
-    <p><strong>Teléfono:</strong> +56 ${paciente.telefono || "-"}</p>
-    <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
-  `;
+          <p><strong>Nombre:</strong> ${paciente.nombre}</p>
+          <p><strong>RUT:</strong> ${paciente.rut || paciente.id_pac}</p>
+          <p><strong>Fecha de Nacimiento:</strong> ${formatearFecha(paciente.fechaNacimiento || paciente.fecha_nac)}</p>
+          <p><strong>Teléfono:</strong> +56 ${paciente.telefono || "-"}</p>
+          <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
+        `;
                 } else {
                   infoDiv.innerHTML = `<p class="text-danger">No se encontró el paciente.</p>`;
                 }
-
               }
 
               function renderHistorial() {
@@ -362,15 +359,18 @@
                   return;
                 }
 
-                // Validar paciente cargado
-                const idPaciente = pacienteActual?.id_pac;
+                // Obtener id_pac correcto desde localStorage
+                let idPaciente = null;
+                const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
+                const pacienteEncontrado = pacientesLocal.find(p => p.rut === rut);
+                idPaciente = pacienteEncontrado?.id_pac;
 
                 if (!idPaciente) {
                   alert("Paciente no encontrado. No se puede guardar el registro.");
                   return;
                 }
 
-                // Guardar en historial local
+                // Guardar en localStorage (historial local)
                 const nueva = {
                   fecha,
                   medicamentos,
@@ -382,7 +382,7 @@
                 localStorage.setItem(historialKey, JSON.stringify(historial));
                 renderHistorial();
 
-                // Payload para el backend
+                // Payload correcto
                 const payload = {
                   nombre: "Plan asignado el " + fecha,
                   descripcion_plan: medicamentos || "Sin descripción",
@@ -394,7 +394,7 @@
                 console.log("Payload enviado al backend:", payload);
 
                 try {
-                  const res = await fetch("https://crud-gestion-pacientes.onrender.com/api/gestion_pacientes_app/", {
+                  const res = await fetch("https://crud-gestion-pacientes.onrender.com/api/registro-medico/", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json"
@@ -416,7 +416,6 @@
                   alert("Error de conexión con el servidor");
                 }
               });
-
 
 
               window.mostrarFormulario = () => {
