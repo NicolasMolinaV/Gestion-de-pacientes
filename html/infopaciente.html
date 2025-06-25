@@ -367,17 +367,25 @@
                 // Normalizar el RUT de la URL
                 const rutNormalizado = normalizarRut(rut);
 
-                // Obtener id_pac correcto desde localStorage
-                let idPaciente = null;
+                // Obtener pacientes desde localStorage y normalizar sus RUT
                 const pacientesLocal = JSON.parse(localStorage.getItem("pacientesData")) || [];
-                const pacienteEncontrado = pacientesLocal.find(p => normalizarRut(p.rut) === rutNormalizado);
-                idPaciente = pacienteEncontrado?.id_pac;
+                const pacientesNormalizados = pacientesLocal.map(paciente => ({
+                  ...paciente,
+                  rut: normalizarRut(paciente.rut),
+                }));
+
+                // Guardar los pacientes normalizados nuevamente en localStorage
+                localStorage.setItem("pacientesData", JSON.stringify(pacientesNormalizados));
+
+                // Buscar el paciente por RUT normalizado
+                const pacienteEncontrado = pacientesNormalizados.find(p => p.rut === rutNormalizado);
+                const idPaciente = pacienteEncontrado?.id_pac;
 
                 if (!idPaciente) {
                   alert("Paciente no encontrado. No se puede guardar el registro.");
                   console.log("No se encontró el paciente. Verifica los siguientes datos:");
                   console.log("RUT (normalizado):", rutNormalizado);
-                  console.log("Pacientes almacenados localmente:", pacientesLocal);
+                  console.log("Pacientes almacenados localmente (normalizados):", pacientesNormalizados);
                   console.log("Resultado de búsqueda en localStorage:", pacienteEncontrado);
                   return;
                 }
@@ -387,7 +395,7 @@
                   fecha,
                   medicamentos,
                   medico: medicoNombre,
-                  vacunas: vacunasAplicadas
+                  vacunas: vacunasAplicadas,
                 };
                 const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
                 historial.push(nueva);
@@ -400,7 +408,7 @@
                   descripcion_plan: medicamentos || "Sin descripción",
                   vacunas: vacunasAplicadas || [],
                   paciente: idPaciente,
-                  medico: medicoId
+                  medico: medicoId,
                 };
 
                 console.log("Payload enviado al backend:", payload);
@@ -409,9 +417,9 @@
                   const res = await fetch("https://crud-gestion-pacientes.onrender.com/api/registro-medico/", {
                     method: "POST",
                     headers: {
-                      "Content-Type": "application/json"
+                      "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
                   });
 
                   if (res.ok) {
