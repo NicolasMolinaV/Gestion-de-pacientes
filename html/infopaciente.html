@@ -391,6 +391,16 @@
                   console.log("Pacientes local:", pacientesNormalizados);
                   return;
                 }
+                const nueva = {
+                  fecha,
+                  medicamentos,
+                  medico: medicoNombre,
+                  vacunas: vacunasAplicadas
+                };
+                const historial = JSON.parse(localStorage.getItem(historialKey)) || [];
+                historial.push(nueva);
+                localStorage.setItem(historialKey, JSON.stringify(historial));
+                renderHistorial();
 
                 const payload = {
                   nombre: "Plan asignado el " + fecha,
@@ -472,7 +482,7 @@
                     data.forEach(medico => {
                       const option = document.createElement("option");
                       option.value = medico.id;
-                      option.textContent = `${medico.id} - ${medico.nombre_completo}`; 
+                      option.textContent = `${medico.id} - ${medico.nombre_completo}`;
                       select.appendChild(option);
                     });
                   })
