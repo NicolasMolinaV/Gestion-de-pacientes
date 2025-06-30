@@ -273,9 +273,9 @@
               const historialKey = `historial-${rut}`;
 
               generarCheckboxVacunas();
+              cargarMedicos();
               obtenerPaciente();
               renderHistorial();
-              cargarMedicos();
 
               function generarCheckboxVacunas() {
                 const container = document.getElementById("vacunasContainer");
