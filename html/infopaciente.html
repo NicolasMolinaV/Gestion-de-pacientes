@@ -472,7 +472,7 @@
                     data.forEach(medico => {
                       const option = document.createElement("option");
                       option.value = medico.id;
-                      option.textContent = medico.nombre_completo;
+                      option.textContent = medico.id || medico.nombre_completo;
                       select.appendChild(option);
                     });
                   })
