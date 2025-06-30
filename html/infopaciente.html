@@ -318,7 +318,7 @@
                 }
 
                 if (paciente) {
-                  const medico = paciente.medico || null;
+                  const medicoId = paciente.medico || "No asignado";
 
                   infoDiv.innerHTML = `
       <p><strong>Nombre:</strong> ${paciente.nombre}</p>
@@ -326,10 +326,7 @@
       <p><strong>Fecha de Nacimiento:</strong> ${formatearFecha(paciente.fechaNacimiento || paciente.fecha_nac)}</p>
       <p><strong>Teléfono:</strong> +56 ${paciente.telefono || "-"}</p>
       <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
-      ${medico ? `
-      <p><strong>Médico Asignado:</strong> ${medico.nombre}</p>
-      <p><strong>Especialidad:</strong> ${medico.especialidad || "N/A"}</p>
-      ` : `<p><strong>Médico Asignado:</strong> Sin asignar</p>`}
+      <p><strong>ID del Médico:</strong> ${medicoId}</p>
     `;
                 } else {
                   infoDiv.innerHTML = `<p class="text-danger">No se encontró el paciente.</p>`;
