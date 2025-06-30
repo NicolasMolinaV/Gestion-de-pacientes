@@ -328,6 +328,14 @@
       <p><strong>Dirección:</strong> ${paciente.direccion || "-"}, ${paciente.comuna || "-"}</p>
       <p><strong>ID del Médico:</strong> ${medicoId}</p>
     `;
+                  // Seleccionar automáticamente el médico en el dropdown
+                  const medicoSelect = document.getElementById("medicosSelect");
+                  if (medicoSelect && medicoId) {
+                    const optionToSelect = medicoSelect.querySelector(`option[value="${medicoId}"]`);
+                    if (optionToSelect) {
+                      optionToSelect.selected = true;
+                    }
+                  }
                 } else {
                   infoDiv.innerHTML = `<p class="text-danger">No se encontró el paciente.</p>`;
                 }
@@ -453,7 +461,7 @@
               };
 
               function cargarMedicos() {
-                fetch('https://crud-gestion-pacientes.onrender.com/api/medicos/')
+                return fetch('https://crud-gestion-pacientes.onrender.com/api/medicos/')
                   .then(resp => resp.json())
                   .then(data => {
                     const select = document.getElementById("medicosSelect");
