@@ -432,6 +432,10 @@
         }
       });
 
+      function obtenerRutNumerico(rutCompleto) {
+        return parseInt(rutCompleto.replace(/\D/g, '').slice(0, -1)); // Elimina puntos y guión, y quita el dígito verificador
+      }
+
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
@@ -457,10 +461,13 @@
 
         console.log("ID del médico seleccionado:", medicoSeleccionado);
 
+        const rutCompleto = form.rut.value.trim();
+        const rutNumerico = obtenerRutNumerico(rutCompleto);
+
 
         const nuevoPaciente = {
-          rut: form.rut.value.trim(),
-          id_pac: parseInt(form.rut.value.trim()),
+          rut: rutCompleto,
+          id_pac: rutNumerico,
           sexo: parseInt(form.sexo.value),
           nombre: form.nombre.value.trim(),
           apellido: form.apellidos.value.trim(),
