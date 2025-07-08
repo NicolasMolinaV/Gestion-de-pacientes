@@ -460,7 +460,7 @@
 
         const nuevoPaciente = {
           rut: form.rut.value.trim(),
-          id_pac: parseInt(form.rut.value.trim()),
+          id_pac: parseInt(form.rut.value.replace(/[^\d]/g, '')),
           sexo: parseInt(form.sexo.value),
           nombre: form.nombre.value.trim(),
           apellido: form.apellidos.value.trim(),
