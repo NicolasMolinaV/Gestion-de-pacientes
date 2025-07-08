@@ -431,9 +431,6 @@
           e.target.value = valor;
         }
       });
-      function rutANumero(rut) {
-        return parseInt(rut.replace(/\D/g, '').slice(0, -1));
-      }
 
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -463,7 +460,7 @@
 
         const nuevoPaciente = {
           rut: form.rut.value.trim(),
-          id_pac: rutANumero(form.rut.value),
+          id_pac: parseInt(form.rut.value.trim()),
           sexo: parseInt(form.sexo.value),
           nombre: form.nombre.value.trim(),
           apellido: form.apellidos.value.trim(),
